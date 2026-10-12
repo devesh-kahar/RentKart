@@ -8,12 +8,13 @@
 ![Java](https://img.shields.io/badge/Java-17-ED8B00?style=flat&logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-6DB33F?style=flat&logo=springboot&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat&logo=vite&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-8.4-4479A1?style=flat&logo=mysql&logoColor=white)
 ![License](https://img.shields.io/badge/License-Academic-blue?style=flat)
 
 **RentLoop** is a full-stack, category-agnostic rental platform that lets university students list, discover, request, and rent virtually any item — from laptops and cameras to bicycles and musical instruments. Built with **Spring Boot** on the backend and **React + Vite** on the frontend, it features real-time chat, intelligent request-to-listing matching, a controlled booking lifecycle, and a trust-building review system.
 
-[Features](#-key-features) · [Architecture](#-system-architecture) · [Tech Stack](#-technology-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference) · [Roadmap](#-development-roadmap)
+[Features](#-key-features) · [Frontend](#-frontend-application) · [Architecture](#-system-architecture) · [Tech Stack](#-technology-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference) · [Roadmap](#-development-roadmap)
 
 </div>
 
@@ -102,6 +103,94 @@ Real-time, in-app notifications for booking requests, confirmations, cancellatio
 
 ---
 
+## 🎨 Frontend Application
+
+The React frontend is a fully-featured **Single Page Application** with a premium dark-themed UI, glassmorphism effects, and smooth micro-animations.
+
+<table>
+<tr>
+<td width="50%">
+
+### 🏠 Marketplace & Discovery
+- Animated hero banner with call-to-action
+- Category pill filters (All, Electronics, Vehicles, Sports, etc.)
+- Real-time search with debouncing
+- Responsive listing card grid with hover effects
+- Detailed listing modal with booking/purchase flow
+
+</td>
+<td width="50%">
+
+### 📝 Listing & Request Creation
+- Multi-step listing creation form
+- Category-aware dynamic fields
+- Listing type selection (Sale / Rent / Both)
+- Image upload support
+- Rental request posting for unmet demand
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 📋 My Bookings Dashboard
+- Tab-based booking views (All, Active, Pending, Completed)
+- Real-time booking status tracking
+- One-click chat with listing owner
+- Post-booking review submission
+- Cancellation workflow
+
+</td>
+<td width="50%">
+
+### 🏪 Owner Dashboard
+- Manage owned listings (edit, delete, toggle status)
+- Incoming booking request management
+- Approve / Reject / Mark Active / Mark Returned
+- Revenue tracking per listing
+- Chat with renters
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🛡️ Admin Panel
+- User management (view all registered users)
+- Listing moderation (view & remove listings)
+- Booking oversight
+- Review moderation (remove inappropriate reviews)
+- Rental request management
+
+</td>
+<td width="50%">
+
+### 💬 Chat & Communication
+- Slide-in chat drawer
+- Booking-contextualized conversations
+- Message history with timestamps
+- Real-time WebSocket messaging
+- User avatar & identity display
+
+</td>
+</tr>
+<tr>
+<td colspan="2">
+
+### 🎯 Design System
+- **Dark theme** with glassmorphism effects and subtle gradients
+- **Plus Jakarta Sans** & **Inter** typography via Google Fonts
+- **CSS custom properties** for consistent theming (no framework dependency)
+- **Responsive design** across desktop, tablet, and mobile
+- **Micro-animations** on hover, focus, and state transitions
+- **Lucide React** icon library for consistent iconography
+
+</td>
+</tr>
+</table>
+
+---
+
 ## 🧬 Category-Agnostic Item Model
 
 RentLoop uses a single, flexible `Item` entity with extensible attributes — **no schema changes needed** when adding new item types.
@@ -120,27 +209,31 @@ Supported categories include laptops, tablets, gaming consoles, cameras, musical
 ## 🏗 System Architecture
 
 ```
-                    ┌──────────────────────────┐
-                    │     React + Vite (SPA)    │
-                    │    TailwindCSS · Axios    │
-                    └────────────┬─────────────┘
-                                 │
-                          REST / WebSocket
+                    ┌──────────────────────────────┐
+                    │      React 19 + Vite 8       │
+                    │   Vanilla CSS · Fetch API     │
+                    │   Lucide Icons · WebSocket    │
+                    └──────────────┬───────────────┘
+                                   │
+                          REST / WebSocket (STOMP)
+                       (Vite Dev Proxy → :8080)
+                                   │
+                                   ▼
+              ┌──────────────────────────────────────┐
+              │          Spring Boot 4.1.1           │
+              │                                      │
+              │   Controllers → Services → Repos     │
+              │        JPA / Hibernate ORM           │
+              │     Spring Security + JWT Auth       │
+              │      WebSocket + STOMP Chat          │
+              └──────────────────┬───────────────────┘
                                  │
                                  ▼
-              ┌──────────────────────────────────┐
-              │         Spring Boot 4.1.1        │
-              │                                  │
-              │  Controllers → Services → Repos  │
-              │       JPA / Hibernate ORM        │
-              │    Spring Security + JWT Auth     │
-              │     WebSocket + STOMP Chat       │
-              └────────────────┬─────────────────┘
-                               │
-                               ▼
-                        ┌─────────────┐
-                        │  MySQL 8.4  │
-                        └─────────────┘
+                          ┌─────────────┐
+                          │  MySQL 8.4  │
+                          │  (or H2 /   │
+                          │  SQLite)    │
+                          └─────────────┘
 
               ┌────────────┐      ┌──────────────┐
               │ Cloudinary │      │ Google Maps  │
@@ -172,18 +265,21 @@ Supported categories include laptops, tablets, gaming consoles, cameras, musical
 | Jakarta Validation | — | Request validation |
 | Lombok | — | Boilerplate reduction |
 | MySQL Connector/J | — | Database driver |
+| H2 Database | — | Embedded database for dev/testing |
 | Maven | — | Build & dependency management |
 
 ### Frontend
 
 | Technology | Version | Purpose |
 |---|---|---|
-| React | 19 | UI library |
-| Vite | 8 | Build tool & dev server |
-| React Router | 7 | Client-side routing |
-| Axios | 1.20 | HTTP client |
-| Tailwind CSS | 4 | Utility-first styling |
-| Lucide React | 1.48 | Icon library |
+| React | 19.2 | UI library (component-based SPA) |
+| Vite | 8.3 | Build tool & dev server with HMR |
+| Vanilla CSS | — | Custom design system with CSS variables |
+| Lucide React | 1.55 | Icon library |
+| Fetch API | Native | HTTP client for REST endpoints |
+| WebSocket API | Native | Real-time chat communication |
+| LocalStorage API | Native | Client-side state persistence |
+| Plus Jakarta Sans / Inter | — | Typography (Google Fonts) |
 
 ### External Services
 
@@ -207,40 +303,69 @@ Supported categories include laptops, tablets, gaming consoles, cameras, musical
 RentLoop-Backend/
 │
 ├── src/main/java/com/manthan/rentloop/
-│   ├── RentloopApplication.java        # Entry point
+│   ├── RentloopApplication.java            # Entry point
 │   ├── configuration/
-│   │   ├── SecurityConfig.java         # Spring Security & CORS
-│   │   └── WebSocketConfig.java        # WebSocket/STOMP setup
+│   │   ├── SecurityConfig.java             # Spring Security & CORS
+│   │   ├── WebSocketConfig.java            # WebSocket/STOMP setup
+│   │   └── DataInitializer.java            # Seed data for development
 │   ├── controller/
-│   │   ├── AuthController.java         # Login & registration
-│   │   ├── UserController.java         # User profiles
-│   │   ├── CategoryController.java     # Category CRUD
-│   │   ├── ItemController.java         # Item management
-│   │   ├── ListingController.java      # Listing CRUD & search
-│   │   ├── BookingController.java      # Booking lifecycle
-│   │   ├── RentalRequestController.java# Rental requests
-│   │   ├── ChatController.java         # Real-time messaging
-│   │   ├── ReviewController.java       # Ratings & reviews
-│   │   └── NotificationController.java # User notifications
-│   ├── service/                        # Business logic layer
-│   ├── repository/                     # Spring Data JPA repos
-│   ├── model/                          # JPA entities & enums
-│   ├── dto/                            # Request/response DTOs
-│   ├── security/                       # JWT filter & utilities
-│   └── exception/                      # Global exception handler
+│   │   ├── AuthController.java             # Login & registration
+│   │   ├── UserController.java             # User profiles
+│   │   ├── CategoryController.java         # Category CRUD
+│   │   ├── ItemController.java             # Item management
+│   │   ├── ListingController.java          # Listing CRUD & search
+│   │   ├── BookingController.java          # Booking lifecycle
+│   │   ├── RentalRequestController.java    # Rental requests
+│   │   ├── ChatController.java             # Real-time messaging
+│   │   ├── ReviewController.java           # Ratings & reviews
+│   │   ├── NotificationController.java     # User notifications
+│   │   └── AdminController.java            # Admin operations
+│   ├── service/                            # Business logic layer
+│   ├── repository/                         # Spring Data JPA repos
+│   ├── model/                              # JPA entities & enums
+│   ├── dto/                                # Request/response DTOs
+│   ├── security/                           # JWT filter & utilities
+│   └── exception/                          # Global exception handler
 │
 ├── rentloop-frontend/
+│   ├── index.html                          # SPA entry point
+│   ├── vite.config.js                      # Vite config with API proxy
+│   ├── package.json                        # Dependencies & scripts
 │   └── src/
-│       ├── App.jsx                     # Route definitions
-│       ├── pages/                      # Dashboard, Rent, Requests...
-│       ├── components/                 # Navbar, Login, Register...
-│       ├── context/                    # Auth context provider
-│       └── api/                        # Axios API layer
+│       ├── main.jsx                        # React DOM render
+│       ├── App.jsx                         # Root component & tab routing
+│       ├── App.css                         # App-level overrides
+│       ├── index.css                       # Full design system (1200+ lines)
+│       ├── components/
+│       │   ├── Navbar.jsx                  # Navigation bar with tabs & search
+│       │   ├── HeroBanner.jsx              # Animated hero section
+│       │   ├── Footer.jsx                  # Site footer
+│       │   ├── ListingCard.jsx             # Listing card with hover effects
+│       │   ├── ListingDetailModal.jsx      # Listing detail & booking modal
+│       │   ├── CreateListingModal.jsx      # Multi-step listing creation form
+│       │   ├── CreateRentalRequestModal.jsx# Rental request form
+│       │   ├── ChatDrawer.jsx              # Slide-in chat panel
+│       │   └── ReviewModal.jsx             # Star rating & review form
+│       ├── pages/
+│       │   ├── Marketplace.jsx             # Browse & search listings
+│       │   ├── AuthModal.jsx               # Login / Register modal
+│       │   ├── MyBookings.jsx              # User bookings dashboard
+│       │   ├── RentalRequestsPage.jsx      # Community rental requests
+│       │   ├── OwnerDashboard.jsx          # Seller/owner management
+│       │   └── AdminDashboard.jsx          # Admin panel
+│       ├── services/
+│       │   └── api.js                      # API service layer (fetch + mock data)
+│       ├── context/
+│       │   ├── AuthContext.jsx             # Authentication state provider
+│       │   └── NotificationContext.jsx     # Notification state provider
+│       ├── data/
+│       │   └── mockData.js                 # Demo seed data for offline mode
+│       └── assets/                         # Images, SVGs & static assets
 │
-├── .github/workflows/maven.yml        # CI pipeline
-├── .env.example                        # Environment variable template
-├── pom.xml                             # Maven configuration
-└── postman/                            # Postman collections
+├── .github/workflows/maven.yml            # CI pipeline
+├── .env.example                            # Environment variable template
+├── pom.xml                                 # Maven configuration
+└── postman/                                # Postman collections
 ```
 
 ---
@@ -275,7 +400,7 @@ User
 |---|---|
 | JDK | 17+ |
 | Maven | 3.9+ |
-| MySQL | 8.0+ |
+| MySQL | 8.0+ (or H2/SQLite for quick dev) |
 | Node.js | 18+ |
 | Git | Any |
 
@@ -283,7 +408,6 @@ User
 # Verify installations
 java -version
 mvn -version
-mysql --version
 node --version
 git --version
 ```
@@ -297,8 +421,15 @@ cd RentLoop-Backend
 
 ### 2. Database Setup
 
+**Option A: MySQL (Production)**
 ```sql
 CREATE DATABASE rentloop_db;
+```
+
+**Option B: H2 In-Memory (Quick Dev)**
+```bash
+# No setup needed — just use the h2 profile
+.\mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=h2
 ```
 
 ### 3. Configure Environment Variables
@@ -336,6 +467,9 @@ GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 
 # Windows
 .\mvnw.cmd spring-boot:run
+
+# With H2 profile (no MySQL needed)
+.\mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=h2
 ```
 
 The API server starts at `http://localhost:8080`.
@@ -348,7 +482,9 @@ npm install
 npm run dev
 ```
 
-The dev server starts at `http://localhost:5173`.
+The dev server starts at `http://localhost:5173` with automatic API proxying to the backend.
+
+> 💡 **Demo Mode:** The frontend includes built-in mock data. Even without the backend running, you can explore the full UI with sample listings, bookings, and users.
 
 ---
 
@@ -415,13 +551,19 @@ All endpoints are prefixed with `/api`.
 | 10 | Real-Time Chat (WebSocket + STOMP) | ✅ |
 | 11 | Notifications | ✅ |
 | 12 | Ratings & Reviews | ✅ |
-| 13 | React Frontend (Dashboard, Rent, Requests, Owner Panel) | ✅ |
-| 14 | CI/CD Pipeline (GitHub Actions) | ✅ |
-| 15 | Administration Panel | ✅ |
-| 16 | Redis (Caching, Rate Limiting, Booking Locks) | 🔜 |
-| 17 | Kafka (Event-Driven Processing) | 🔜 |
-| 18 | Swagger / OpenAPI Documentation | 🔜 |
-| 19 | Comprehensive Test Suite | 🔜 |
+| 13 | CI/CD Pipeline (GitHub Actions) | ✅ |
+| 14 | Administration Panel (Backend) | ✅ |
+| 15 | React Frontend — Marketplace & Discovery | ✅ |
+| 16 | React Frontend — Listing Creation & Detail Views | ✅ |
+| 17 | React Frontend — Booking Management Dashboard | ✅ |
+| 18 | React Frontend — Owner Dashboard | ✅ |
+| 19 | React Frontend — Admin Panel | ✅ |
+| 20 | React Frontend — Chat, Reviews & Notifications | ✅ |
+| 21 | React Frontend — Premium UI/UX & Design System | ✅ |
+| 22 | Redis (Caching, Rate Limiting, Booking Locks) | 🔜 |
+| 23 | Kafka (Event-Driven Processing) | 🔜 |
+| 24 | Swagger / OpenAPI Documentation | 🔜 |
+| 25 | Comprehensive Test Suite | 🔜 |
 
 ---
 
@@ -448,6 +590,7 @@ The CI pipeline automatically runs tests on every push and pull request to `main
 - Ownership validation on update/delete operations
 - Input validated at API boundaries via **Jakarta Validation**
 - Centralized exception handling with meaningful HTTP status codes
+- CORS configured for trusted origins only
 
 ---
 
@@ -488,14 +631,19 @@ chore:    Build/config changes
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Authors
 
 **Manthan Sharma**
-
 Department of Computer Science and Engineering
 Ramdeobaba University
 
 [![GitHub](https://img.shields.io/badge/GitHub-manthansharma6767-181717?style=flat&logo=github)](https://github.com/manthansharma6767)
+
+**Kartikeya Trivedi**
+Department of Computer Science and Engineering
+Ramdeobaba University
+
+[![GitHub](https://img.shields.io/badge/GitHub-ProCoder80-181717?style=flat&logo=github)](https://github.com/ProCoder80)
 
 ---
 
