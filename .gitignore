@@ -111,3 +111,8 @@ jacoco.exec
 *.db
 *.sqlite
 *.sqlite3
+data/
+node_modules/
+**/node_modules/
+dist/
+**/dist/
