@@ -7,10 +7,31 @@ import {
   ShoppingBag, 
   Sparkles,
   ArrowUpDown,
-  Tag
+  Tag,
+  Laptop,
+  Camera,
+  Music,
+  Gamepad2,
+  Bike,
+  BookOpen,
+  Shirt,
+  Wrench
 } from 'lucide-react';
 import { categoriesApi, listingsApi } from '../services/api';
 import { ListingCard } from '../components/ListingCard';
+
+const getCategoryIcon = (categoryName) => {
+  const name = (categoryName || '').toLowerCase();
+  if (name.includes('laptop') || name.includes('tech')) return Laptop;
+  if (name.includes('camera') || name.includes('optic')) return Camera;
+  if (name.includes('music') || name.includes('instrument')) return Music;
+  if (name.includes('game') || name.includes('console')) return Gamepad2;
+  if (name.includes('bike') || name.includes('mobility')) return Bike;
+  if (name.includes('book') || name.includes('academic') || name.includes('textbook')) return BookOpen;
+  if (name.includes('fashion') || name.includes('wear')) return Shirt;
+  if (name.includes('tool') || name.includes('diy')) return Wrench;
+  return Tag;
+};
 
 export const Marketplace = ({ 
   onSelectListing, 
@@ -68,7 +89,7 @@ export const Marketplace = ({
 
   return (
     <div>
-      {/* Category Horizontal Pill Strip */}
+      {/* Category Horizontal Pill Strip (Airbnb Inspired with Edge Fade) */}
       <section className="category-strip-wrapper">
         <div className="category-strip">
           <button
@@ -76,23 +97,30 @@ export const Marketplace = ({
             className={`cat-pill ${selectedCategory === null ? 'active' : ''}`}
             onClick={() => setSelectedCategory(null)}
           >
-            <span>✨ All Categories</span>
+            <Sparkles size={16} />
+            <span>All Categories</span>
           </button>
 
-          {categories.map(c => (
-            <button
-              key={c.id}
-              id={`cat-pill-${c.id}`}
-              className={`cat-pill ${selectedCategory === c.id ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(selectedCategory === c.id ? null : c.id)}
-            >
-              <span>{c.name}</span>
-            </button>
-          ))}
+          {categories.map(c => {
+            const Icon = getCategoryIcon(c.name);
+            const isSelected = selectedCategory === c.id;
+
+            return (
+              <button
+                key={c.id}
+                id={`cat-pill-${c.id}`}
+                className={`cat-pill ${isSelected ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(isSelected ? null : c.id)}
+              >
+                <Icon size={16} />
+                <span>{c.name}</span>
+              </button>
+            );
+          })}
         </div>
       </section>
 
-      {/* Main Content Layout */}
+      {/* Main Content Layout with 1280px Container */}
       <main className="main-content-layout">
         {/* Marketplace Controls Bar */}
         <div className="marketplace-controls-bar">
@@ -141,7 +169,7 @@ export const Marketplace = ({
           </div>
         </div>
 
-        {/* Listings Grid */}
+        {/* Listings Grid (Responsive 4-Column Layout) */}
         {isLoading ? (
           <div style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--slate-500)' }}>
             <Repeat size={32} className="spin-animation" style={{ margin: '0 auto 1rem', opacity: 0.6 }} />
@@ -156,11 +184,11 @@ export const Marketplace = ({
             border: '1px dashed var(--slate-300)'
           }}>
             <Sparkles size={36} color="var(--primary)" style={{ margin: '0 auto 0.75rem' }} />
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--slate-900)' }}>
               No items found matching your filters
             </h3>
             <p style={{ color: 'var(--slate-500)', maxWidth: '440px', margin: '0 auto 1.5rem', fontSize: '0.88rem' }}>
-              Can't find the gear you need? Post a "Wanted to Rent" request and let owners reach out to you!
+              Can't find the gear you need? Post a "Wanted to Rent" request and let campus peers reach out to you!
             </p>
             <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center' }}>
               <button 

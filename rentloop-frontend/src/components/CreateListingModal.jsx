@@ -146,8 +146,9 @@ export const CreateListingModal = ({ onClose, onListingCreated }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="modal-body">
-          {/* Mode Selector */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+          <div className="modal-body" style={{ flex: 1, overflowY: 'auto' }}>
+            {/* Mode Selector */}
           <div className="form-group">
             <label className="form-label">How do you want to list this item?</label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -416,13 +417,15 @@ export const CreateListingModal = ({ onClose, onListingCreated }) => {
             ))}
           </div>
 
-          {/* Submit CTA */}
-          <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.8rem' }}>
+          </div>
+
+          {/* Pinned Sticky Modal Footer */}
+          <div className="modal-footer">
             <button
               type="button"
               className="hero-btn-secondary"
               onClick={onClose}
-              style={{ padding: '0.65rem 1.25rem' }}
+              style={{ padding: '0.65rem 1.25rem', fontSize: '0.9rem' }}
             >
               Cancel
             </button>
@@ -431,7 +434,7 @@ export const CreateListingModal = ({ onClose, onListingCreated }) => {
               id="btn-submit-listing"
               className="hero-btn-primary"
               disabled={isSubmitting}
-              style={{ padding: '0.65rem 1.5rem' }}
+              style={{ padding: '0.65rem 1.5rem', fontSize: '0.9rem' }}
             >
               {isSubmitting ? 'Publishing...' : 'Publish Listing'}
             </button>

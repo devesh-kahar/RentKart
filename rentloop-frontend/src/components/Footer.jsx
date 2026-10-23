@@ -8,23 +8,23 @@ export const Footer = () => {
         <div className="footer-grid">
           {/* Brand Col */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
               <div className="brand-icon-wrapper">
                 <Repeat size={20} strokeWidth={2.6} />
               </div>
-              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'white' }}>
+              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--slate-900)' }}>
                 Rent<span style={{ color: 'var(--primary)' }}>Loop</span>
               </span>
             </div>
-            <p style={{ fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '1.25rem', maxWidth: '340px' }}>
+            <p style={{ fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '1.25rem', maxWidth: '340px', color: 'var(--slate-600)' }}>
               The modern peer-to-peer marketplace that goes beyond OLX: <strong>Buy, Sell, and Rent</strong> virtually anything within your university community with verified escrow deposits and automated demand matching.
             </p>
-            <div style={{ display: 'flex', gap: '0.8rem', fontSize: '0.78rem', color: '#10b981' }}>
+            <div style={{ display: 'flex', gap: '0.8rem', fontSize: '0.78rem', color: 'var(--emerald-hover)', fontWeight: 600 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                <ShieldCheck size={16} /> Pessimistic Write Lock
+                <ShieldCheck size={16} /> 100% Secure Deposit Protection
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                <Lock size={16} /> Escrow Protected
+                <Lock size={16} /> 100% Deposit Protection
               </span>
             </div>
           </div>
@@ -67,10 +67,10 @@ export const Footer = () => {
         </div>
 
         <div className="footer-bottom-bar">
-          <div>
+          <div style={{ color: 'var(--slate-500)' }}>
             © {new Date().getFullYear()} RentLoop Platform • Academic & Peer-to-Peer Project.
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--slate-500)' }}>
             Built with <Heart size={14} color="#f43f5e" fill="#f43f5e" /> for student collaboration and sustainable gear reuse.
           </div>
         </div>

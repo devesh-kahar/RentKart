@@ -69,7 +69,8 @@ export const ReviewModal = ({ booking, onClose, onReviewSubmitted }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="modal-body">
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+          <div className="modal-body">
           {/* Star selector */}
           <div style={{ textAlign: 'center', margin: '1rem 0 1.5rem' }}>
             <div style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--slate-700)' }}>
@@ -114,12 +115,13 @@ export const ReviewModal = ({ booking, onClose, onReviewSubmitted }) => {
             />
           </div>
 
-          <div style={{ marginTop: '1.25rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+          </div>
+          <div className="modal-footer">
             <button
               type="button"
               className="hero-btn-secondary"
               onClick={onClose}
-              style={{ padding: '0.6rem 1.1rem' }}
+              style={{ padding: '0.6rem 1.1rem', fontSize: '0.9rem' }}
             >
               Cancel
             </button>
@@ -128,7 +130,7 @@ export const ReviewModal = ({ booking, onClose, onReviewSubmitted }) => {
               id="btn-submit-review"
               className="hero-btn-primary"
               disabled={isSubmitting}
-              style={{ padding: '0.6rem 1.4rem' }}
+              style={{ padding: '0.6rem 1.4rem', fontSize: '0.9rem' }}
             >
               {isSubmitting ? 'Submitting...' : 'Post Verified Review'}
             </button>

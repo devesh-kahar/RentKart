@@ -11,13 +11,13 @@ import {
 
 // Local storage key constants for persistence during interactive demo
 const STORAGE_KEYS = {
-  LISTINGS: 'rentloop_listings_v1',
-  BOOKINGS: 'rentloop_bookings_v1',
-  REQUESTS: 'rentloop_requests_v1',
-  NOTIFICATIONS: 'rentloop_notifications_v1',
-  REVIEWS: 'rentloop_reviews_v1',
-  CHATS: 'rentloop_chats_v1',
-  CATEGORIES: 'rentloop_categories_v1',
+  LISTINGS: 'rentloop_listings_v2',
+  BOOKINGS: 'rentloop_bookings_v2',
+  REQUESTS: 'rentloop_requests_v2',
+  NOTIFICATIONS: 'rentloop_notifications_v2',
+  REVIEWS: 'rentloop_reviews_v2',
+  CHATS: 'rentloop_chats_v2',
+  CATEGORIES: 'rentloop_categories_v2',
   TOKEN: 'rentloop_jwt_token',
   CURRENT_USER: 'rentloop_current_user',
   USE_LIVE_API: 'rentloop_use_live_api'

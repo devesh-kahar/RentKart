@@ -81,7 +81,7 @@ export const ChatDrawer = ({ context, onClose }) => {
             </div>
           </div>
         </div>
-        <button id="btn-close-chat" onClick={onClose} style={{ color: 'white' }}>
+        <button id="btn-close-chat" className="modal-close-btn" onClick={onClose}>
           <X size={18} />
         </button>
       </div>

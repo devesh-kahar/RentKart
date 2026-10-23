@@ -77,28 +77,27 @@ export const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Overview Cards */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-        gap: '1rem', 
-        marginBottom: '2rem' 
-      }}>
-        <div style={{ background: 'white', padding: '1.25rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--slate-500)', fontWeight: 600 }}>Total Registered Users</div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800 }}>{users.length}</div>
+      {/* Bento Overview Cards */}
+      <div className="bento-grid">
+        <div className="bento-card">
+          <span className="bento-stat-label">Registered Users</span>
+          <div className="bento-stat-val">{users.length}</div>
+          <div className="bento-stat-sub">Verified campus community</div>
         </div>
-        <div style={{ background: 'white', padding: '1.25rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--slate-500)', fontWeight: 600 }}>Marketplace Listings</div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800 }}>{listings.length}</div>
+        <div className="bento-card highlight-indigo">
+          <span className="bento-stat-label">Marketplace Listings</span>
+          <div className="bento-stat-val" style={{ color: 'var(--primary)' }}>{listings.length}</div>
+          <div className="bento-stat-sub">Active circulating items</div>
         </div>
-        <div style={{ background: 'white', padding: '1.25rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--slate-500)', fontWeight: 600 }}>Platform Bookings</div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800 }}>{bookings.length}</div>
+        <div className="bento-card highlight-emerald">
+          <span className="bento-stat-label">Platform Bookings</span>
+          <div className="bento-stat-val" style={{ color: 'var(--emerald-hover)' }}>{bookings.length}</div>
+          <div className="bento-stat-sub">Completed & active rentals</div>
         </div>
-        <div style={{ background: 'white', padding: '1.25rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--slate-500)', fontWeight: 600 }}>Student Reviews</div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800 }}>{reviews.length}</div>
+        <div className="bento-card highlight-amber">
+          <span className="bento-stat-label">Student Reviews</span>
+          <div className="bento-stat-val" style={{ color: '#b45309' }}>{reviews.length}</div>
+          <div className="bento-stat-sub">Community trust feedback</div>
         </div>
       </div>
 

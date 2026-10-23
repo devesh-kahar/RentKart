@@ -8,6 +8,8 @@ export const CreateRentalRequestModal = ({ onClose, onRequestCreated }) => {
   const { currentUser, openLogin } = useAuth();
   const { showToast } = useNotifications();
 
+  const [title, setTitle] = useState('');
+  const [urgency, setUrgency] = useState('Normal');
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState('1');
   const [description, setDescription] = useState('');
@@ -42,6 +44,11 @@ export const CreateRentalRequestModal = ({ onClose, onRequestCreated }) => {
       return;
     }
 
+    if (!title.trim()) {
+      showToast('Please give your request a short title', 'error');
+      return;
+    }
+
     if (!description.trim()) {
       showToast('Please describe what item you are looking for', 'error');
       return;
@@ -55,11 +62,13 @@ export const CreateRentalRequestModal = ({ onClose, onRequestCreated }) => {
     setIsSubmitting(true);
     try {
       const payload = {
+        title: title.trim(),
         categoryId: Number(categoryId),
         description,
         budgetPerDay: Number(budgetPerDay),
         startDate,
         endDate,
+        urgency,
         latitude: 40.7128,
         longitude: -74.0060
       };
@@ -99,20 +108,50 @@ export const CreateRentalRequestModal = ({ onClose, onRequestCreated }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="modal-body">
-          <div className="form-group">
-            <label className="form-label">Category Needed</label>
-            <select
-              id="select-request-category"
-              className="form-select"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-            >
-              {categories.map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
-          </div>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+          <div className="modal-body" style={{ flex: 1, overflowY: 'auto' }}>
+            <div className="form-group">
+              <label className="form-label">Request Title / Headline</label>
+              <input
+                id="input-request-title"
+                type="text"
+                className="form-input"
+                placeholder="e.g. Need DJI Ronin gimbal or Sony 50mm Lens for graduation shoot"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Category Needed</label>
+                <select
+                  id="select-request-category"
+                  className="form-select"
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  {categories.map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Urgency Level</label>
+                <select
+                  id="select-request-urgency"
+                  className="form-select"
+                  value={urgency}
+                  onChange={(e) => setUrgency(e.target.value)}
+                >
+                  <option value="Normal">🟢 Normal (Flexible timeline)</option>
+                  <option value="High Priority">⚡ High Priority (This weekend / project)</option>
+                  <option value="Urgent">🔥 Urgent (Needed within 24-48 hours)</option>
+                </select>
+              </div>
+            </div>
 
           <div className="form-group">
             <label className="form-label">What item do you need?</label>
@@ -166,12 +205,15 @@ export const CreateRentalRequestModal = ({ onClose, onRequestCreated }) => {
             </div>
           </div>
 
-          <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.8rem' }}>
+          </div>
+
+          {/* Pinned Sticky Modal Footer */}
+          <div className="modal-footer">
             <button
               type="button"
               className="hero-btn-secondary"
               onClick={onClose}
-              style={{ padding: '0.65rem 1.25rem' }}
+              style={{ padding: '0.65rem 1.25rem', fontSize: '0.9rem' }}
             >
               Cancel
             </button>
@@ -180,7 +222,7 @@ export const CreateRentalRequestModal = ({ onClose, onRequestCreated }) => {
               id="btn-submit-rental-request"
               className="hero-btn-primary"
               disabled={isSubmitting}
-              style={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', padding: '0.65rem 1.5rem' }}
+              style={{ padding: '0.65rem 1.5rem', fontSize: '0.9rem' }}
             >
               {isSubmitting ? 'Posting...' : 'Post Request & Find Matches'}
             </button>
